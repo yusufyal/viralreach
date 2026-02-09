@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import stripe from "@/lib/stripe";
+import getStripe from "@/lib/stripe";
 import { STRIPE_PRICES } from "@/lib/stripe-prices";
 
 // Allowed origins for CORS (your main site domains)
@@ -55,6 +55,7 @@ export async function POST(request: Request) {
     const finalCancelUrl = cancelUrl || `${baseUrl}/packages`;
 
     // Create a Stripe Checkout Session
+    const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
