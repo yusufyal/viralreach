@@ -1,4 +1,6 @@
-import Button from "@/components/ui/Button";
+"use client";
+
+import { useState } from "react";
 
 type PricingCardProps = {
   id: string;
@@ -12,6 +14,7 @@ type PricingCardProps = {
 };
 
 export default function PricingCard({
+  id,
   name,
   description,
   price,
@@ -20,6 +23,35 @@ export default function PricingCard({
   highlighted = false,
   ctaText = "Get Started",
 }: PricingCardProps) {
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ packageId: id }),
+      });
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Something went wrong. Please try again.");
+        setLoading(false);
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  const buttonVariantClasses = highlighted
+    ? "bg-accent-500 text-white hover:bg-accent-600 shadow-sm shadow-accent-500/20"
+    : "bg-primary-600 text-white hover:bg-primary-700 shadow-sm shadow-primary-600/20";
+
   return (
     <div
       className={`relative rounded-2xl p-8 flex flex-col ${
@@ -95,13 +127,23 @@ export default function PricingCard({
         ))}
       </ul>
 
-      <Button
-        href="/contact"
-        variant={highlighted ? "secondary" : "primary"}
-        className="w-full"
+      <button
+        onClick={handleCheckout}
+        disabled={loading}
+        className={`inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 px-6 py-2.5 text-base w-full disabled:opacity-60 disabled:cursor-not-allowed ${buttonVariantClasses}`}
       >
-        {ctaText}
-      </Button>
+        {loading ? (
+          <span className="flex items-center gap-2">
+            <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+            Processing...
+          </span>
+        ) : (
+          ctaText
+        )}
+      </button>
     </div>
   );
 }
