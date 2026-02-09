@@ -7,65 +7,98 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = createMetadata({
   title: "Packages & Pricing",
   description:
-    "View ViralSearch's digital marketing packages. Choose from Starter, Growth, or Enterprise plans covering SEO, content writing, and promotional campaigns.",
+    "View ViralSearch's digital marketing packages. Choose from Basic, Starter, Growth, Professional, or Enterprise plans covering SEO, content writing, and promotional campaigns.",
   path: "/packages",
 });
 
 const packages = [
   {
-    id: "starter",
-    name: "Starter",
+    id: "order_1",
+    name: "Basic",
     description:
-      "Ideal for small businesses looking to establish their online presence with essential marketing services.",
-    price: "$499",
-    period: "month",
+      "A great starting point for individuals and small projects looking to boost their online visibility.",
+    price: "$2.99",
+    period: "one-time",
     features: [
-      "Basic SEO audit and optimization",
-      "4 SEO-optimized blog articles",
-      "Social media setup (2 platforms)",
-      "Monthly performance report",
-      "Keyword tracking (up to 20 keywords)",
+      "Basic SEO keyword analysis",
+      "1 SEO-optimized blog article",
+      "Social media profile review",
+      "Performance summary report",
       "Email support",
     ],
     highlighted: false,
   },
   {
-    id: "growth",
+    id: "order_2",
+    name: "Starter",
+    description:
+      "Ideal for small businesses looking to establish their online presence with essential marketing services.",
+    price: "$9.99",
+    period: "one-time",
+    features: [
+      "SEO audit and optimization",
+      "3 SEO-optimized blog articles",
+      "Social media setup (2 platforms)",
+      "Keyword tracking (up to 10 keywords)",
+      "Monthly performance report",
+      "Email support",
+    ],
+    highlighted: false,
+  },
+  {
+    id: "order_3",
     name: "Growth",
     description:
       "Perfect for growing businesses that need a comprehensive marketing strategy with measurable results.",
-    price: "$999",
-    period: "month",
+    price: "$17.99",
+    period: "one-time",
     features: [
-      "Advanced SEO strategy and implementation",
-      "8 SEO-optimized blog articles",
+      "Advanced SEO strategy",
+      "5 SEO-optimized blog articles",
       "Social media management (3 platforms)",
-      "PPC campaign management",
+      "PPC campaign setup",
+      "Keyword tracking (up to 30 keywords)",
       "Bi-weekly performance reports",
-      "Keyword tracking (up to 50 keywords)",
-      "Link building outreach",
       "Dedicated account manager",
     ],
     highlighted: true,
   },
   {
-    id: "enterprise",
-    name: "Enterprise",
+    id: "order_4",
+    name: "Professional",
     description:
-      "Comprehensive marketing solutions for established businesses seeking full-service digital marketing management.",
-    price: "$1,999",
-    period: "month",
+      "Comprehensive marketing solutions for established businesses seeking full-service digital marketing.",
+    price: "$79.99",
+    period: "one-time",
     features: [
       "Full SEO management and strategy",
-      "12+ content pieces per month",
-      "Social media management (5 platforms)",
+      "10 content pieces",
+      "Social media management (4 platforms)",
       "Multi-channel campaign management",
+      "Link building outreach",
       "Weekly performance reports",
+      "Conversion rate optimization",
+      "Priority support",
+    ],
+    highlighted: false,
+  },
+  {
+    id: "order_5",
+    name: "Enterprise",
+    description:
+      "The ultimate marketing package for businesses that demand top-tier results and dedicated support.",
+    price: "$149.99",
+    period: "one-time",
+    features: [
+      "Complete SEO and content strategy",
+      "20+ content pieces",
+      "Social media management (5+ platforms)",
+      "Advanced multi-channel campaigns",
       "Keyword tracking (unlimited)",
       "Advanced link building strategy",
-      "Conversion rate optimization",
-      "Priority support and strategy calls",
       "Custom analytics dashboard",
+      "Weekly strategy calls",
+      "Priority support and dedicated manager",
     ],
     highlighted: false,
   },
@@ -82,7 +115,7 @@ export default function PackagesPage() {
             description="Choose a package that aligns with your goals and budget. All plans include transparent reporting and dedicated support. Custom packages are available upon request."
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-start justify-items-center">
             {packages.map((pkg) => (
               <PricingCard key={pkg.id} {...pkg} />
             ))}
