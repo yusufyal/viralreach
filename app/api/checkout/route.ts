@@ -37,16 +37,8 @@ export async function POST(request: Request) {
   const corsHeaders = getCorsHeaders(origin);
 
   try {
-    const { packageId, successUrl, cancelUrl } = await request.json();
-
-    // Validate package ID
-    const priceId = STRIPE_PRICES[packageId];
-    if (!priceId) {
-      return NextResponse.json(
-        { error: "Invalid package selected." },
-        { status: 400, headers: corsHeaders }
-      );
-    }
+    const { packageId, amount, name, successUrl, cancelUrl } =
+      await request.json();
 
     // Use caller-provided URLs (main site) or fall back to ViralSearch URLs
     const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3050";
@@ -54,24 +46,75 @@ export async function POST(request: Request) {
       successUrl || `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`;
     const finalCancelUrl = cancelUrl || `${baseUrl}/packages`;
 
-    // Create a Stripe Checkout Session
     const stripe = getStripe();
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
-      success_url: finalSuccessUrl,
-      cancel_url: finalCancelUrl,
-    });
 
+    // Dynamic amount mode: accepts any amount + product name from the main site
+    if (amount !== undefined) {
+      const parsedAmount = parseFloat(amount);
+      if (isNaN(parsedAmount) || parsedAmount <= 0) {
+        return NextResponse.json(
+          { error: "Invalid amount. Must be a positive number." },
+          { status: 400, headers: corsHeaders }
+        );
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: name || "ViralSearch Service",
+              },
+              unit_amount: Math.round(parsedAmount * 100), // convert dollars to cents
+            },
+            quantity: 1,
+          },
+        ],
+        success_url: finalSuccessUrl,
+        cancel_url: finalCancelUrl,
+      });
+
+      return NextResponse.json(
+        { url: session.url },
+        { headers: corsHeaders }
+      );
+    }
+
+    // Fixed package mode: uses pre-configured Stripe Price IDs (backward compatible)
+    if (packageId) {
+      const priceId = STRIPE_PRICES[packageId];
+      if (!priceId) {
+        return NextResponse.json(
+          { error: "Invalid package selected." },
+          { status: 400, headers: corsHeaders }
+        );
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price: priceId,
+            quantity: 1,
+          },
+        ],
+        success_url: finalSuccessUrl,
+        cancel_url: finalCancelUrl,
+      });
+
+      return NextResponse.json(
+        { url: session.url },
+        { headers: corsHeaders }
+      );
+    }
+
+    // Neither amount nor packageId provided
     return NextResponse.json(
-      { url: session.url },
-      { headers: corsHeaders }
+      { error: "Either 'amount' or 'packageId' is required." },
+      { status: 400, headers: corsHeaders }
     );
   } catch (error) {
     console.error("Stripe checkout error:", error);
