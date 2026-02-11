@@ -7,6 +7,7 @@ type PricingCardProps = {
   name: string;
   description: string;
   price: string;
+  amount: number;
   period: string;
   features: string[];
   highlighted?: boolean;
@@ -14,10 +15,10 @@ type PricingCardProps = {
 };
 
 export default function PricingCard({
-  id,
   name,
   description,
   price,
+  amount,
   period,
   features,
   highlighted = false,
@@ -31,7 +32,7 @@ export default function PricingCard({
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ packageId: id }),
+        body: JSON.stringify({ amount }),
       });
 
       const data = await res.json();

@@ -23,6 +23,20 @@ function getCorsHeaders(requestOrigin: string | null) {
   };
 }
 
+/**
+ * Auto-generates a professional service name based on the payment amount.
+ * This ensures Stripe only ever sees generic ViralSearch service names.
+ */
+function getServiceName(amount: number): string {
+  if (amount < 50) {
+    return "Digital Marketing Service";
+  } else if (amount < 500) {
+    return "Digital Campaign Service";
+  } else {
+    return "Digital Promotion Campaign";
+  }
+}
+
 // Handle preflight OPTIONS request (required for cross-origin calls)
 export async function OPTIONS(request: Request) {
   const origin = request.headers.get("origin");
@@ -37,7 +51,7 @@ export async function POST(request: Request) {
   const corsHeaders = getCorsHeaders(origin);
 
   try {
-    const { packageId, amount, name, successUrl, cancelUrl } =
+    const { packageId, amount, successUrl, cancelUrl } =
       await request.json();
 
     // Use caller-provided URLs (main site) or fall back to ViralSearch URLs
@@ -48,7 +62,8 @@ export async function POST(request: Request) {
 
     const stripe = getStripe();
 
-    // Dynamic amount mode: accepts any amount + product name from the main site
+    // Dynamic amount mode: accepts any amount from the main site
+    // Service name is auto-generated based on amount range
     if (amount !== undefined) {
       const parsedAmount = parseFloat(amount);
       if (isNaN(parsedAmount) || parsedAmount <= 0) {
@@ -58,6 +73,8 @@ export async function POST(request: Request) {
         );
       }
 
+      const serviceName = getServiceName(parsedAmount);
+
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
         line_items: [
@@ -65,7 +82,7 @@ export async function POST(request: Request) {
             price_data: {
               currency: "usd",
               product_data: {
-                name: name || "ViralSearch Service",
+                name: serviceName,
               },
               unit_amount: Math.round(parsedAmount * 100), // convert dollars to cents
             },

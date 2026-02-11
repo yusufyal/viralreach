@@ -14,10 +14,11 @@ export const metadata: Metadata = createMetadata({
 const packages = [
   {
     id: "order_1",
-    name: "Basic",
+    name: "Digital Marketing Service",
     description:
-      "A great starting point for individuals and small projects looking to boost their online visibility.",
-    price: "$2.99",
+      "Essential digital marketing for startups and small projects looking to establish their online presence.",
+    price: "$29",
+    amount: 29,
     period: "one-time",
     features: [
       "Basic SEO keyword analysis",
@@ -30,16 +31,17 @@ const packages = [
   },
   {
     id: "order_2",
-    name: "Starter",
+    name: "Digital Marketing Service",
     description:
-      "Ideal for small businesses looking to establish their online presence with essential marketing services.",
-    price: "$9.99",
+      "A comprehensive marketing foundation for small businesses ready to grow their online reach.",
+    price: "$49",
+    amount: 49,
     period: "one-time",
     features: [
-      "SEO audit and optimization",
+      "SEO audit and on-page optimization",
       "3 SEO-optimized blog articles",
       "Social media setup (2 platforms)",
-      "Keyword tracking (up to 10 keywords)",
+      "Keyword tracking (up to 15 keywords)",
       "Monthly performance report",
       "Email support",
     ],
@@ -47,17 +49,18 @@ const packages = [
   },
   {
     id: "order_3",
-    name: "Growth",
+    name: "Digital Campaign Service",
     description:
-      "Perfect for growing businesses that need a comprehensive marketing strategy with measurable results.",
-    price: "$17.99",
+      "Strategic digital campaigns for growing businesses that need measurable results and broader reach.",
+    price: "$149",
+    amount: 149,
     period: "one-time",
     features: [
-      "Advanced SEO strategy",
-      "5 SEO-optimized blog articles",
+      "Advanced SEO strategy and implementation",
+      "5 SEO-optimized content pieces",
       "Social media management (3 platforms)",
-      "PPC campaign setup",
-      "Keyword tracking (up to 30 keywords)",
+      "PPC campaign setup and management",
+      "Keyword tracking (up to 40 keywords)",
       "Bi-weekly performance reports",
       "Dedicated account manager",
     ],
@@ -65,14 +68,15 @@ const packages = [
   },
   {
     id: "order_4",
-    name: "Professional",
+    name: "Digital Campaign Service",
     description:
-      "Comprehensive marketing solutions for established businesses seeking full-service digital marketing.",
-    price: "$79.99",
+      "Full-scale campaign management for established businesses seeking multi-channel digital growth.",
+    price: "$349",
+    amount: 349,
     period: "one-time",
     features: [
       "Full SEO management and strategy",
-      "10 content pieces",
+      "10 content pieces per delivery",
       "Social media management (4 platforms)",
       "Multi-channel campaign management",
       "Link building outreach",
@@ -84,16 +88,17 @@ const packages = [
   },
   {
     id: "order_5",
-    name: "Enterprise",
+    name: "Digital Promotion Campaign",
     description:
-      "The ultimate marketing package for businesses that demand top-tier results and dedicated support.",
-    price: "$149.99",
+      "Enterprise-grade promotional campaigns with dedicated support and maximum visibility across all channels.",
+    price: "$799",
+    amount: 799,
     period: "one-time",
     features: [
       "Complete SEO and content strategy",
-      "20+ content pieces",
+      "20+ content pieces per delivery",
       "Social media management (5+ platforms)",
-      "Advanced multi-channel campaigns",
+      "Advanced multi-channel promotional campaigns",
       "Keyword tracking (unlimited)",
       "Advanced link building strategy",
       "Custom analytics dashboard",
