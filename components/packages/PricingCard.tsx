@@ -8,6 +8,7 @@ type PricingCardProps = {
   description: string;
   price: string;
   amount: number;
+  qty?: number;
   period: string;
   features: string[];
   highlighted?: boolean;
@@ -19,6 +20,7 @@ export default function PricingCard({
   description,
   price,
   amount,
+  qty = 1,
   period,
   features,
   highlighted = false,
@@ -101,6 +103,15 @@ export default function PricingCard({
         >
           /{period}
         </span>
+        {qty > 1 && (
+          <p
+            className={`text-xs mt-1 ${
+              highlighted ? "text-primary-200" : "text-slate-400"
+            }`}
+          >
+            {qty} x ${(amount / qty).toFixed(2)} per unit
+          </p>
+        )}
       </div>
 
       <ul className="space-y-3 mb-8 flex-1">

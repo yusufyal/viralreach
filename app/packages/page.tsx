@@ -3,113 +3,23 @@ import { createMetadata } from "@/lib/metadata";
 import SectionHeading from "@/components/ui/SectionHeading";
 import PricingCard from "@/components/packages/PricingCard";
 import Button from "@/components/ui/Button";
+import prisma from "@/lib/prisma";
 
 export const metadata: Metadata = createMetadata({
   title: "Packages & Pricing",
   description:
-    "View HNH Media's digital marketing packages. Choose from SEO Starter Kit, Content Growth Plan, Campaign Accelerator, Multi-Channel Strategy, or Enterprise Growth Suite plans covering SEO, content writing, and promotional campaigns.",
+    "View HNH Media's digital marketing packages. Choose from our professional plans covering SEO, content writing, and promotional campaigns.",
   path: "/packages",
 });
 
-const packages = [
-  {
-    id: "order_1",
-    name: "SEO Starter Kit",
-    description:
-      "Essential SEO foundations for startups and small projects looking to establish their online presence.",
-    price: "$29",
-    amount: 29,
-    period: "one-time",
-    features: [
-      "Basic SEO keyword analysis",
-      "1 SEO-optimized blog article",
-      "Social media profile review",
-      "Performance summary report",
-      "Email support",
-    ],
-    highlighted: false,
-  },
-  {
-    id: "order_2",
-    name: "Content Growth Plan",
-    description:
-      "A comprehensive content and marketing foundation for small businesses ready to grow their online reach.",
-    price: "$49",
-    amount: 49,
-    period: "one-time",
-    features: [
-      "SEO audit and on-page optimization",
-      "3 SEO-optimized blog articles",
-      "Social media setup (2 platforms)",
-      "Keyword tracking (up to 15 keywords)",
-      "Monthly performance report",
-      "Email support",
-    ],
-    highlighted: false,
-  },
-  {
-    id: "order_3",
-    name: "Campaign Accelerator",
-    description:
-      "Strategic digital campaigns for growing businesses that need measurable results and broader reach.",
-    price: "$149",
-    amount: 149,
-    period: "one-time",
-    features: [
-      "Advanced SEO strategy and implementation",
-      "5 SEO-optimized content pieces",
-      "Social media management (3 platforms)",
-      "PPC campaign setup and management",
-      "Keyword tracking (up to 40 keywords)",
-      "Bi-weekly performance reports",
-      "Dedicated account manager",
-    ],
-    highlighted: true,
-  },
-  {
-    id: "order_4",
-    name: "Multi-Channel Strategy",
-    description:
-      "Full-scale campaign management for established businesses seeking multi-channel digital growth.",
-    price: "$349",
-    amount: 349,
-    period: "one-time",
-    features: [
-      "Full SEO management and strategy",
-      "10 content pieces per delivery",
-      "Social media management (4 platforms)",
-      "Multi-channel campaign management",
-      "Link building outreach",
-      "Weekly performance reports",
-      "Conversion rate optimization",
-      "Priority support",
-    ],
-    highlighted: false,
-  },
-  {
-    id: "order_5",
-    name: "Enterprise Growth Suite",
-    description:
-      "Enterprise-grade promotional campaigns with dedicated support and maximum visibility across all channels.",
-    price: "$799",
-    amount: 799,
-    period: "one-time",
-    features: [
-      "Complete SEO and content strategy",
-      "20+ content pieces per delivery",
-      "Social media management (5+ platforms)",
-      "Advanced multi-channel promotional campaigns",
-      "Keyword tracking (unlimited)",
-      "Advanced link building strategy",
-      "Custom analytics dashboard",
-      "Weekly strategy calls",
-      "Priority support and dedicated manager",
-    ],
-    highlighted: false,
-  },
-];
+export const dynamic = "force-dynamic";
 
-export default function PackagesPage() {
+export default async function PackagesPage() {
+  const packages = await prisma.package.findMany({
+    where: { active: true },
+    orderBy: { sortOrder: "asc" },
+  });
+
   return (
     <>
       <section className="py-20 bg-slate-50">
@@ -122,9 +32,26 @@ export default function PackagesPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-start justify-items-center">
             {packages.map((pkg) => (
-              <PricingCard key={pkg.id} {...pkg} />
+              <PricingCard
+                key={pkg.id}
+                id={pkg.id}
+                name={pkg.name}
+                description={pkg.description}
+                price={`$${pkg.price % 1 === 0 ? pkg.price.toFixed(0) : pkg.price.toFixed(2)}`}
+                amount={pkg.price}
+                qty={pkg.qty}
+                period={pkg.period}
+                features={pkg.features}
+                highlighted={pkg.highlighted}
+              />
             ))}
           </div>
+
+          {packages.length === 0 && (
+            <div className="text-center py-12 text-slate-500">
+              Packages coming soon. Please check back later.
+            </div>
+          )}
 
           {/* Custom Packages Note */}
           <div className="mt-16 max-w-3xl mx-auto text-center">

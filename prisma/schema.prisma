@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Package {
+  id             String   @id @default(cuid())
+  name           String
+  description    String
+  price          Float
+  qty            Int      @default(1)
+  period         String   @default("one-time")
+  features       String[]
+  highlighted    Boolean  @default(false)
+  sortOrder      Int      @default(0)
+  active         Boolean  @default(true)
+  stripeTierName String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
