@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://viralsearch.com"),
+  metadataBase: new URL("https://hnh-media.com"),
   title: {
     default: `${SITE_NAME} - Professional Digital Marketing Agency`,
     template: `%s | ${SITE_NAME}`,

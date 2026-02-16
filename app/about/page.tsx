@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = createMetadata({
   title: "About Us",
   description:
-    "Learn about ViralSearch, a professional digital marketing agency dedicated to helping businesses grow online through strategic SEO, content, and digital campaigns.",
+    "Learn about HNH Media, a professional digital marketing agency dedicated to helping businesses grow online through strategic SEO, content, and digital campaigns.",
   path: "/about",
 });
 
@@ -37,7 +37,7 @@ const team = [
   {
     name: "Sarah Mitchell",
     role: "Founder & CEO",
-    bio: "With over 10 years in digital marketing, Sarah founded ViralSearch to help businesses navigate the complexities of online growth with confidence.",
+    bio: "With over 10 years in digital marketing, Sarah founded HNH Media to help businesses navigate the complexities of online growth with confidence.",
   },
   {
     name: "David Chen",
@@ -64,13 +64,13 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-primary-600 font-semibold text-sm uppercase tracking-wider mb-3">
-              About ViralSearch
+              About HNH Media
             </p>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
               Your Partner in Digital Growth
             </h1>
             <p className="text-lg text-slate-600 leading-relaxed">
-              ViralSearch is a professional digital marketing agency founded on
+              HNH Media is a professional digital marketing agency founded on
               the belief that every business deserves access to effective,
               transparent, and results-driven marketing strategies. We combine
               industry expertise with a genuine commitment to our clients&apos;
@@ -90,7 +90,7 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-4 text-slate-600 leading-relaxed">
                 <p>
-                  ViralSearch was born from a simple observation: too many
+                  HNH Media was born from a simple observation: too many
                   businesses were struggling with digital marketing agencies that
                   over-promised and under-delivered. We set out to change that by
                   building an agency grounded in transparency, measurable results,
@@ -174,7 +174,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             label="Our Team"
-            title="Meet the Experts Behind ViralSearch"
+            title="Meet the Experts Behind HNH Media"
             description="A dedicated team of marketing professionals committed to delivering exceptional results for every client."
           />
 

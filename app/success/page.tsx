@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = createMetadata({
   title: "Payment Successful",
   description:
-    "Thank you for choosing ViralSearch. Your payment was successful and our team will be in touch shortly to get started on your marketing plan.",
+    "Thank you for choosing HNH Media. Your payment was successful and our team will be in touch shortly to get started on your marketing plan.",
   path: "/success",
 });
 
@@ -34,18 +34,18 @@ export default function SuccessPage() {
           Payment Successful!
         </h1>
         <p className="text-lg text-slate-600 leading-relaxed mb-4">
-          Thank you for choosing ViralSearch. Your subscription has been
-          activated and our team will reach out to you within 1-2 business days
+          Thank you for choosing HNH Media. Your order has been
+          confirmed and our team will reach out to you within 1-2 business days
           to begin working on your marketing strategy.
         </p>
         <p className="text-slate-500 mb-10">
           A confirmation email has been sent to your email address. If you have
           any questions, feel free to contact us at{" "}
           <a
-            href="mailto:info@viralsearch.com"
+            href="mailto:info@hnh-media.com"
             className="text-primary-600 hover:text-primary-700 underline"
           >
-            info@viralsearch.com
+            info@hnh-media.com
           </a>
           .
         </p>

@@ -37,10 +37,10 @@ export default function Footer() {
             <p className="text-sm text-slate-400">
               <strong className="text-slate-300">Email:</strong>{" "}
               <a
-                href="mailto:info@viralsearch.com"
+                href="mailto:info@hnh-media.com"
                 className="hover:text-primary-400 transition-colors"
               >
-                info@viralsearch.com
+                info@hnh-media.com
               </a>
             </p>
           </div>
@@ -100,7 +100,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-slate-500">
-            &copy; {new Date().getFullYear()} ViralSearch. All rights reserved.
+            &copy; {new Date().getFullYear()} HNH Media. All rights reserved.
           </p>
           <p className="text-sm text-slate-500">
             Professional Digital Marketing Services

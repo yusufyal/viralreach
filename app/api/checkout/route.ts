@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import getStripe from "@/lib/stripe";
 import { STRIPE_PRICES } from "@/lib/stripe-prices";
 
-// Allowed origins for CORS (your main site domains)
 function getAllowedOrigins(): string[] {
   const origins = process.env.CORS_ALLOWED_ORIGINS || "";
   return origins
@@ -24,20 +23,83 @@ function getCorsHeaders(requestOrigin: string | null) {
 }
 
 /**
- * Auto-generates a professional service name based on the payment amount.
- * This ensures Stripe only ever sees generic ViralSearch service names.
+ * Tier definitions for auto-naming and quantity calculation.
+ * Each tier has a name (shown on Stripe), a base unit price (in dollars),
+ * and the amount range it applies to.
+ *
+ * | Amount Range | Service Name            | Unit Price |
+ * |-------------|-------------------------|------------|
+ * | Under $50   | SEO Starter Kit         | $4.99      |
+ * | $50 - $199  | Content Growth Plan     | $24.99     |
+ * | $200 - $499 | Campaign Accelerator    | $49.99     |
+ * | $500+       | Enterprise Growth Suite | $99.99     |
  */
-function getServiceName(amount: number): string {
-  if (amount < 50) {
-    return "Digital Marketing Service";
-  } else if (amount < 500) {
-    return "Digital Campaign Service";
-  } else {
-    return "Digital Promotion Campaign";
-  }
+const TIERS = [
+  { maxAmount: 50, name: "SEO Starter Kit", unitPrice: 4.99 },
+  { maxAmount: 200, name: "Content Growth Plan", unitPrice: 24.99 },
+  { maxAmount: 500, name: "Campaign Accelerator", unitPrice: 49.99 },
+  { maxAmount: Infinity, name: "Enterprise Growth Suite", unitPrice: 99.99 },
+];
+
+function getTier(amount: number) {
+  return TIERS.find((t) => amount < t.maxAmount) || TIERS[TIERS.length - 1];
 }
 
-// Handle preflight OPTIONS request (required for cross-origin calls)
+/**
+ * Calculates a quantity and adjusted unit price so that qty * unitPrice = totalAmount exactly.
+ *
+ * Strategy:
+ * 1. Try the tier's base unit price — if the total divides evenly, use it.
+ * 2. Otherwise, try nearby cent values (±50 cents) to find a clean division.
+ * 3. If no clean division exists, fall back to qty=1 with the full amount as unit price.
+ *
+ * All amounts are handled in cents to avoid floating-point issues.
+ */
+function getQtyBreakdown(totalAmount: number): {
+  serviceName: string;
+  quantity: number;
+  unitAmountCents: number;
+} {
+  const tier = getTier(totalAmount);
+  const totalCents = Math.round(totalAmount * 100);
+  const baseUnitCents = Math.round(tier.unitPrice * 100);
+
+  // Try the exact base unit price first
+  if (totalCents % baseUnitCents === 0) {
+    const qty = totalCents / baseUnitCents;
+    return {
+      serviceName: tier.name,
+      quantity: qty,
+      unitAmountCents: baseUnitCents,
+    };
+  }
+
+  // Search nearby cent values (±50 cents from base) for a clean division
+  for (let delta = 1; delta <= 50; delta++) {
+    for (const sign of [1, -1]) {
+      const candidate = baseUnitCents + sign * delta;
+      if (candidate <= 0) continue;
+      if (totalCents % candidate === 0) {
+        const qty = totalCents / candidate;
+        if (qty >= 1) {
+          return {
+            serviceName: tier.name,
+            quantity: qty,
+            unitAmountCents: candidate,
+          };
+        }
+      }
+    }
+  }
+
+  // Fallback: qty=1, full amount as unit price
+  return {
+    serviceName: tier.name,
+    quantity: 1,
+    unitAmountCents: totalCents,
+  };
+}
+
 export async function OPTIONS(request: Request) {
   const origin = request.headers.get("origin");
   return new NextResponse(null, {
@@ -54,7 +116,6 @@ export async function POST(request: Request) {
     const { packageId, amount, successUrl, cancelUrl } =
       await request.json();
 
-    // Use caller-provided URLs (main site) or fall back to ViralSearch URLs
     const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3050";
     const finalSuccessUrl =
       successUrl || `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`;
@@ -62,8 +123,7 @@ export async function POST(request: Request) {
 
     const stripe = getStripe();
 
-    // Dynamic amount mode: accepts any amount from the main site
-    // Service name is auto-generated based on amount range
+    // Dynamic amount mode: accepts any amount, auto-names and calculates qty
     if (amount !== undefined) {
       const parsedAmount = parseFloat(amount);
       if (isNaN(parsedAmount) || parsedAmount <= 0) {
@@ -73,7 +133,8 @@ export async function POST(request: Request) {
         );
       }
 
-      const serviceName = getServiceName(parsedAmount);
+      const { serviceName, quantity, unitAmountCents } =
+        getQtyBreakdown(parsedAmount);
 
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
@@ -84,9 +145,9 @@ export async function POST(request: Request) {
               product_data: {
                 name: serviceName,
               },
-              unit_amount: Math.round(parsedAmount * 100), // convert dollars to cents
+              unit_amount: unitAmountCents,
             },
-            quantity: 1,
+            quantity,
           },
         ],
         success_url: finalSuccessUrl,
@@ -128,7 +189,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Neither amount nor packageId provided
     return NextResponse.json(
       { error: "Either 'amount' or 'packageId' is required." },
       { status: 400, headers: corsHeaders }

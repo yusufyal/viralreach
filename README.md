@@ -1,8 +1,8 @@
-# ViralSearch — Digital Marketing Agency Website
+# HNH Media — Digital Marketing Agency Website
 
-A professional, production-ready marketing website for **ViralSearch**, a digital marketing agency offering SEO services, content writing, digital promotional campaigns, and social media marketing.
+A professional, production-ready marketing website for **HNH Media**, a digital marketing agency offering SEO services, content writing, digital promotional campaigns, and social media marketing.
 
-Built with **Next.js 15** (App Router), **TypeScript**, and **Tailwind CSS**. Fully static, SEO-optimized, and ready for payment gateway integration.
+Built with **Next.js 15** (App Router), **TypeScript**, and **Tailwind CSS**. SEO-optimized, with Stripe payment integration and ready for production deployment.
 
 ---
 
@@ -21,6 +21,7 @@ Built with **Next.js 15** (App Router), **TypeScript**, and **Tailwind CSS**. Fu
 | `/terms`                       | Terms & Conditions          |
 | `/privacy`                     | Privacy Policy              |
 | `/refund-policy`              | Refund & Cancellation Policy|
+| `/success`                     | Payment Success             |
 
 ---
 
@@ -31,6 +32,7 @@ Built with **Next.js 15** (App Router), **TypeScript**, and **Tailwind CSS**. Fu
 - **Styling:** Tailwind CSS v4
 - **Font:** Inter (via `next/font/google`)
 - **SEO:** Built-in metadata API, sitemap.xml, robots.txt
+- **Payments:** Stripe Checkout (one-time payments)
 
 ---
 
@@ -44,9 +46,20 @@ Built with **Next.js 15** (App Router), **TypeScript**, and **Tailwind CSS**. Fu
 ### Installation
 
 ```bash
-git clone https://github.com/your-username/digital-marketing-agency-site.git
+git clone https://github.com/yusufyal/viralreach.git
 cd digital-marketing-agency-site
 npm install
+```
+
+### Environment Variables
+
+Create a `.env.local` file:
+
+```env
+STRIPE_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+NEXT_PUBLIC_URL=http://localhost:3000
+CORS_ALLOWED_ORIGINS=http://localhost:3000
 ```
 
 ### Development
@@ -66,69 +79,50 @@ npm start
 
 ---
 
-## Deployment
+## Stripe Integration
 
-### Vercel (Recommended)
+The site includes a fully functional Stripe Checkout integration via the `/api/checkout` API route.
 
-1. Push the repository to GitHub
-2. Import the project on [vercel.com](https://vercel.com)
-3. Deploy — Vercel auto-detects Next.js and configures everything
+### Features
 
-### Static Export (Other Hosts)
+- **Dynamic pricing:** Accepts any amount from external sites and creates a Stripe Checkout session on-the-fly
+- **Quantity simulation:** Automatically calculates quantity and unit price to display professional line items on Stripe
+- **Auto-naming:** Service names are automatically assigned based on amount tiers
+- **CORS support:** External sites can call the API with proper origin whitelisting
+- **Backward compatible:** Still supports fixed package ID lookups
 
-Uncomment the `output: "export"` line in `next.config.ts`, then:
+### API Usage
 
 ```bash
-npm run build
+POST /api/checkout
+Content-Type: application/json
+
+{
+  "amount": 75.00,
+  "successUrl": "https://your-site.com/success",
+  "cancelUrl": "https://your-site.com/cancel"
+}
 ```
 
-The static files will be in the `out/` directory, ready to deploy to any static host (Netlify, AWS S3, etc.).
+Response: `{ "url": "https://checkout.stripe.com/..." }`
 
 ---
 
-## Payment Integration (Future)
+## Deployment
 
-This site is structured and ready for payment gateway integration with **Stripe** or **Tap**.
+### Railway (Current)
 
-### How to Add Stripe
+1. Push to GitHub
+2. Connect the repo on [railway.app](https://railway.app)
+3. Set environment variables in Railway dashboard
+4. Deploy
 
-1. Install Stripe SDK:
-   ```bash
-   npm install stripe @stripe/stripe-js
-   ```
+### Vercel (Alternative)
 
-2. Create Stripe Price IDs for each package tier:
-   - `starter` → Stripe Price ID
-   - `growth` → Stripe Price ID
-   - `enterprise` → Stripe Price ID
-
-3. Add an API route at `app/api/checkout/route.ts`:
-   ```typescript
-   import Stripe from "stripe";
-   import { NextResponse } from "next/server";
-
-   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-   export async function POST(req: Request) {
-     const { priceId } = await req.json();
-     const session = await stripe.checkout.sessions.create({
-       mode: "subscription",
-       payment_method_types: ["card"],
-       line_items: [{ price: priceId, quantity: 1 }],
-       success_url: `${process.env.NEXT_PUBLIC_URL}/success`,
-       cancel_url: `${process.env.NEXT_PUBLIC_URL}/packages`,
-     });
-     return NextResponse.json({ url: session.url });
-   }
-   ```
-
-4. Wire the "Get Started" buttons on the Packages page to call this API route.
-
-### How to Add Tap Payments
-
-1. Sign up at [tap.company](https://tap.company)
-2. Use their Checkout API to create payment links
-3. Replace the CTA buttons with Tap payment URLs or integrate their JavaScript SDK
+1. Push the repository to GitHub
+2. Import the project on [vercel.com](https://vercel.com)
+3. Set environment variables
+4. Deploy — Vercel auto-detects Next.js and configures everything
 
 ---
 
@@ -136,7 +130,7 @@ This site is structured and ready for payment gateway integration with **Stripe*
 
 Use this prompt in Canva, Midjourney, or any AI design tool:
 
-> "A modern, minimal logo for a digital marketing agency called 'ViralSearch'. The logo should combine a magnifying glass icon with a subtle upward growth arrow or signal/wave element. Use indigo (#4F46E5) as the primary color with a clean sans-serif font. The design should feel professional, trustworthy, and tech-forward. No gradients, flat design style."
+> "A modern, minimal logo for a digital marketing agency called 'HNH Media'. The logo should combine a growth chart icon with an upward arrow element. Use indigo (#4F46E5) as the primary color with a clean sans-serif font. The design should feel professional, trustworthy, and tech-forward. No gradients, flat design style."
 
 ---
 
@@ -153,6 +147,8 @@ app/                    → Next.js App Router pages
   terms/                → Terms & Conditions
   privacy/              → Privacy Policy
   refund-policy/        → Refund Policy
+  success/              → Payment success page
+  api/checkout/         → Stripe Checkout API route
   sitemap.ts            → Dynamic sitemap generator
   robots.ts             → Robots.txt generator
 
@@ -166,6 +162,8 @@ components/             → Reusable React components
 
 lib/                    → Utilities
   metadata.ts           → SEO metadata helper
+  stripe.ts             → Stripe client (lazy-initialized)
+  stripe-prices.ts      → Package-to-Stripe-price mapping
 ```
 
 ---

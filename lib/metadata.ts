@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-const SITE_NAME = "ViralSearch";
-const SITE_URL = "https://viralsearch.com";
+const SITE_NAME = "HNH Media";
+const SITE_URL = "https://hnh-media.com";
 const DEFAULT_DESCRIPTION =
-  "ViralSearch is a professional digital marketing agency offering SEO services, content writing, digital campaigns, and social media marketing to help businesses grow online.";
+  "HNH Media is a professional digital marketing agency offering SEO services, content writing, digital campaigns, and social media marketing to help businesses grow online.";
 
 export function createMetadata({
   title,

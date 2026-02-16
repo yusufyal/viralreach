@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "description": "ViralSearch - Professional Digital Marketing Agency Website",
+  "description": "HNH Media - Professional Digital Marketing Agency Website",
   "dependencies": {
     "@stripe/stripe-js": "^8.7.0",
     "next": "^15.5.12",

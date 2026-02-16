@@ -4,7 +4,7 @@ import { createMetadata } from "@/lib/metadata";
 export const metadata: Metadata = createMetadata({
   title: "Terms & Conditions",
   description:
-    "Read the terms and conditions governing the use of ViralSearch's digital marketing services, including service scope, payment terms, and liability.",
+    "Read the terms and conditions governing the use of HNH Media's digital marketing services, including service scope, payment terms, and liability.",
   path: "/terms",
 });
 
@@ -27,7 +27,7 @@ export default function TermsPage() {
               1. Introduction
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              Welcome to ViralSearch. These Terms and Conditions govern your use
+              Welcome to HNH Media. These Terms and Conditions govern your use
               of our website and the digital marketing services we provide. By
               engaging our services or using our website, you agree to be bound by
               these terms. Please read them carefully before proceeding.
@@ -39,7 +39,7 @@ export default function TermsPage() {
               2. Services
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              ViralSearch provides digital marketing services including, but not
+              HNH Media provides digital marketing services including, but not
               limited to, search engine optimization (SEO), content writing,
               digital promotional campaigns, and social media marketing. The
               specific scope of services will be outlined in a service agreement
@@ -94,12 +94,12 @@ export default function TermsPage() {
             <p className="text-slate-600 leading-relaxed">
               Upon full payment, clients receive ownership of all custom content,
               designs, and deliverables created specifically for their project,
-              unless otherwise specified in the service agreement. ViralSearch
+              unless otherwise specified in the service agreement. HNH Media
               retains the right to use general methodologies, tools, and
               techniques developed during the engagement.
             </p>
             <p className="text-slate-600 leading-relaxed mt-3">
-              Clients grant ViralSearch a limited license to access and modify
+              Clients grant HNH Media a limited license to access and modify
               their website, social media accounts, and other platforms as
               necessary to deliver the agreed-upon services.
             </p>
@@ -123,7 +123,7 @@ export default function TermsPage() {
               7. Limitation of Liability
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              To the maximum extent permitted by law, ViralSearch shall not be
+              To the maximum extent permitted by law, HNH Media shall not be
               liable for any indirect, incidental, special, consequential, or
               punitive damages, including but not limited to loss of profits,
               data, or business opportunities, arising from the use of our
@@ -155,7 +155,7 @@ export default function TermsPage() {
               9. Modifications
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              ViralSearch reserves the right to update these Terms and Conditions
+              HNH Media reserves the right to update these Terms and Conditions
               at any time. Changes will be effective upon posting to our website.
               Continued use of our services after changes are posted constitutes
               acceptance of the revised terms.
@@ -183,10 +183,10 @@ export default function TermsPage() {
               If you have any questions about these Terms and Conditions, please
               contact us at{" "}
               <a
-                href="mailto:info@viralsearch.com"
+                href="mailto:info@hnh-media.com"
                 className="text-primary-600 hover:text-primary-700 underline"
               >
-                info@viralsearch.com
+                info@hnh-media.com
               </a>
               .
             </p>

@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = createMetadata({
   title: "Content Writing Services",
   description:
-    "Professional content writing services from ViralSearch. We create SEO-optimized blog posts, website copy, product descriptions, and email campaigns that engage and convert.",
+    "Professional content writing services from HNH Media. We create SEO-optimized blog posts, website copy, product descriptions, and email campaigns that engage and convert.",
   path: "/services/content-writing",
 });
 

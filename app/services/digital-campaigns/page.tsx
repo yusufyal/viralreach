@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = createMetadata({
   title: "Digital Marketing Campaigns",
   description:
-    "ViralSearch manages targeted digital marketing campaigns including PPC, display advertising, and remarketing to help your business reach the right audience and maximize ROI.",
+    "HNH Media manages targeted digital marketing campaigns including PPC, display advertising, and remarketing to help your business reach the right audience and maximize ROI.",
   path: "/services/digital-campaigns",
 });
 

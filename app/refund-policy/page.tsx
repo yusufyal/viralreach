@@ -5,7 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = createMetadata({
   title: "Refund & Cancellation Policy",
   description:
-    "Review ViralSearch's refund and cancellation policy. Learn about eligibility, timelines, and the process for requesting refunds or cancelling digital marketing services.",
+    "Review HNH Media's refund and cancellation policy. Learn about eligibility, timelines, and the process for requesting refunds or cancelling digital marketing services.",
   path: "/refund-policy",
 });
 
@@ -28,7 +28,7 @@ export default function RefundPolicyPage() {
               1. Overview
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              At ViralSearch, we are committed to delivering high-quality digital
+              At HNH Media, we are committed to delivering high-quality digital
               marketing services and ensuring client satisfaction. This Refund
               and Cancellation Policy outlines the conditions under which refunds
               may be issued and the procedures for cancelling our services.
@@ -102,10 +102,10 @@ export default function RefundPolicyPage() {
               <li>
                 Contact us at{" "}
                 <a
-                  href="mailto:info@viralsearch.com"
+                  href="mailto:info@hnh-media.com"
                   className="text-primary-600 hover:text-primary-700 underline"
                 >
-                  info@viralsearch.com
+                  info@hnh-media.com
                 </a>{" "}
                 with the subject line &quot;Refund Request.&quot;
               </li>
@@ -151,10 +151,10 @@ export default function RefundPolicyPage() {
             <p className="text-slate-600 leading-relaxed">
               To cancel your services, send a written notice to{" "}
               <a
-                href="mailto:info@viralsearch.com"
+                href="mailto:info@hnh-media.com"
                 className="text-primary-600 hover:text-primary-700 underline"
               >
-                info@viralsearch.com
+                info@hnh-media.com
               </a>{" "}
               or notify your dedicated account manager. Please include your name,
               the services you wish to cancel, and your preferred cancellation
@@ -202,7 +202,7 @@ export default function RefundPolicyPage() {
               8. Changes to This Policy
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              ViralSearch reserves the right to modify this Refund and
+              HNH Media reserves the right to modify this Refund and
               Cancellation Policy at any time. Any changes will be posted on this
               page with an updated revision date. Continued use of our services
               after changes are posted constitutes acceptance of the revised
@@ -217,10 +217,10 @@ export default function RefundPolicyPage() {
             <p className="text-slate-600 leading-relaxed">
               If you have any questions about this policy, please contact us at{" "}
               <a
-                href="mailto:info@viralsearch.com"
+                href="mailto:info@hnh-media.com"
                 className="text-primary-600 hover:text-primary-700 underline"
               >
-                info@viralsearch.com
+                info@hnh-media.com
               </a>{" "}
               or visit our{" "}
               <Link

@@ -7,7 +7,7 @@ import CTASection from "@/components/home/CTASection";
 export const metadata: Metadata = createMetadata({
   title: "Our Services",
   description:
-    "Explore ViralSearch's comprehensive digital marketing services including SEO, content writing, digital campaigns, and social media marketing tailored for your business.",
+    "Explore HNH Media's comprehensive digital marketing services including SEO, content writing, digital campaigns, and social media marketing tailored for your business.",
   path: "/services",
 });
 

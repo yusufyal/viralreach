@@ -7,16 +7,16 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = createMetadata({
   title: "Packages & Pricing",
   description:
-    "View ViralSearch's digital marketing packages. Choose from Basic, Starter, Growth, Professional, or Enterprise plans covering SEO, content writing, and promotional campaigns.",
+    "View HNH Media's digital marketing packages. Choose from SEO Starter Kit, Content Growth Plan, Campaign Accelerator, Multi-Channel Strategy, or Enterprise Growth Suite plans covering SEO, content writing, and promotional campaigns.",
   path: "/packages",
 });
 
 const packages = [
   {
     id: "order_1",
-    name: "Digital Marketing Service",
+    name: "SEO Starter Kit",
     description:
-      "Essential digital marketing for startups and small projects looking to establish their online presence.",
+      "Essential SEO foundations for startups and small projects looking to establish their online presence.",
     price: "$29",
     amount: 29,
     period: "one-time",
@@ -31,9 +31,9 @@ const packages = [
   },
   {
     id: "order_2",
-    name: "Digital Marketing Service",
+    name: "Content Growth Plan",
     description:
-      "A comprehensive marketing foundation for small businesses ready to grow their online reach.",
+      "A comprehensive content and marketing foundation for small businesses ready to grow their online reach.",
     price: "$49",
     amount: 49,
     period: "one-time",
@@ -49,7 +49,7 @@ const packages = [
   },
   {
     id: "order_3",
-    name: "Digital Campaign Service",
+    name: "Campaign Accelerator",
     description:
       "Strategic digital campaigns for growing businesses that need measurable results and broader reach.",
     price: "$149",
@@ -68,7 +68,7 @@ const packages = [
   },
   {
     id: "order_4",
-    name: "Digital Campaign Service",
+    name: "Multi-Channel Strategy",
     description:
       "Full-scale campaign management for established businesses seeking multi-channel digital growth.",
     price: "$349",
@@ -88,7 +88,7 @@ const packages = [
   },
   {
     id: "order_5",
-    name: "Digital Promotion Campaign",
+    name: "Enterprise Growth Suite",
     description:
       "Enterprise-grade promotional campaigns with dedicated support and maximum visibility across all channels.",
     price: "$799",
@@ -175,7 +175,7 @@ export default function PackagesPage() {
               },
               {
                 q: "How do I get started?",
-                a: "Simply contact us through our website or email us at info@viralsearch.com. We will schedule an initial consultation to discuss your business goals and recommend the most suitable package.",
+                a: "Simply contact us through our website or email us at info@hnh-media.com. We will schedule an initial consultation to discuss your business goals and recommend the most suitable package.",
               },
             ].map((faq) => (
               <div

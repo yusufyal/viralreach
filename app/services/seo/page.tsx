@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 export const metadata: Metadata = createMetadata({
   title: "SEO Services",
   description:
-    "ViralSearch offers professional SEO services including keyword research, on-page optimization, technical audits, and link building to improve your search engine rankings.",
+    "HNH Media offers professional SEO services including keyword research, on-page optimization, technical audits, and link building to improve your search engine rankings.",
   path: "/services/seo",
 });
 

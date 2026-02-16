@@ -4,7 +4,7 @@ import { createMetadata } from "@/lib/metadata";
 export const metadata: Metadata = createMetadata({
   title: "Privacy Policy",
   description:
-    "ViralSearch's privacy policy explains how we collect, use, and protect your personal information when you use our website and digital marketing services.",
+    "HNH Media's privacy policy explains how we collect, use, and protect your personal information when you use our website and digital marketing services.",
   path: "/privacy",
 });
 
@@ -27,7 +27,7 @@ export default function PrivacyPolicyPage() {
               1. Introduction
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              ViralSearch (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is
+              HNH Media (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is
               committed to protecting the privacy of our website visitors and
               clients. This Privacy Policy explains how we collect, use,
               disclose, and safeguard your personal information when you visit
@@ -117,7 +117,7 @@ export default function PrivacyPolicyPage() {
             <ul className="list-disc pl-6 space-y-2 text-slate-600">
               <li>With service providers who assist us in operating our business</li>
               <li>When required by law, legal process, or government request</li>
-              <li>To protect the rights, property, or safety of ViralSearch, our clients, or others</li>
+              <li>To protect the rights, property, or safety of HNH Media, our clients, or others</li>
               <li>With your explicit consent</li>
             </ul>
           </div>
@@ -167,10 +167,10 @@ export default function PrivacyPolicyPage() {
             <p className="text-slate-600 leading-relaxed mt-3">
               To exercise any of these rights, please contact us at{" "}
               <a
-                href="mailto:info@viralsearch.com"
+                href="mailto:info@hnh-media.com"
                 className="text-primary-600 hover:text-primary-700 underline"
               >
-                info@viralsearch.com
+                info@hnh-media.com
               </a>
               .
             </p>
@@ -209,10 +209,10 @@ export default function PrivacyPolicyPage() {
               If you have any questions or concerns about this Privacy Policy or
               our data practices, please contact us at{" "}
               <a
-                href="mailto:info@viralsearch.com"
+                href="mailto:info@hnh-media.com"
                 className="text-primary-600 hover:text-primary-700 underline"
               >
-                info@viralsearch.com
+                info@hnh-media.com
               </a>
               .
             </p>

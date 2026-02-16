@@ -5,14 +5,14 @@ import ContactForm from "@/components/contact/ContactForm";
 export const metadata: Metadata = createMetadata({
   title: "Contact Us",
   description:
-    "Get in touch with ViralSearch for a free consultation. Contact us to discuss your SEO, content writing, digital campaign, or social media marketing needs.",
+    "Get in touch with HNH Media for a free consultation. Contact us to discuss your SEO, content writing, digital campaign, or social media marketing needs.",
   path: "/contact",
 });
 
 const contactInfo = [
   {
     title: "Email Us",
-    detail: "info@viralsearch.com",
+    detail: "info@hnh-media.com",
     description: "Send us an email anytime. We typically respond within 1-2 business days.",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
