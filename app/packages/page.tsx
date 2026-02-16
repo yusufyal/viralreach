@@ -15,10 +15,15 @@ export const metadata: Metadata = createMetadata({
 export const dynamic = "force-dynamic";
 
 export default async function PackagesPage() {
-  const packages = await prisma.package.findMany({
-    where: { active: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  let packages: Awaited<ReturnType<typeof prisma.package.findMany>> = [];
+  try {
+    packages = await prisma.package.findMany({
+      where: { active: true },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch {
+    // Database not connected yet — show empty state
+  }
 
   return (
     <>

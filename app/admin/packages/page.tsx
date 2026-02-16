@@ -6,9 +6,14 @@ import PackageActions from "@/components/admin/PackageActions";
 export const dynamic = "force-dynamic";
 
 export default async function AdminPackagesPage() {
-  const packages = await prisma.package.findMany({
-    orderBy: { sortOrder: "asc" },
-  });
+  let packages: Awaited<ReturnType<typeof prisma.package.findMany>> = [];
+  try {
+    packages = await prisma.package.findMany({
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch {
+    // Database not connected yet
+  }
 
   return (
     <AdminLayout>
