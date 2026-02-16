@@ -116,7 +116,10 @@ export async function POST(request: Request) {
     const { packageId, amount, successUrl, cancelUrl } =
       await request.json();
 
-    const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3050";
+    let baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3050";
+    if (baseUrl && !baseUrl.startsWith("http")) {
+      baseUrl = `https://${baseUrl}`;
+    }
     const finalSuccessUrl =
       successUrl || `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`;
     const finalCancelUrl = cancelUrl || `${baseUrl}/packages`;
@@ -193,10 +196,12 @@ export async function POST(request: Request) {
       { error: "Either 'amount' or 'packageId' is required." },
       { status: 400, headers: corsHeaders }
     );
-  } catch (error) {
-    console.error("Stripe checkout error:", error);
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Unknown error";
+    console.error("Stripe checkout error:", message, error);
     return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
+      { error: `Checkout failed: ${message}` },
       { status: 500, headers: corsHeaders }
     );
   }
