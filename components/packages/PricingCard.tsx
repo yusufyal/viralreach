@@ -6,7 +6,6 @@ type PricingCardProps = {
   id: string;
   name: string;
   description: string;
-  price: string;
   amount: number;
   qty?: number;
   period: string;
@@ -18,15 +17,18 @@ type PricingCardProps = {
 export default function PricingCard({
   name,
   description,
-  price,
   amount,
-  qty = 1,
+  qty: defaultQty = 1,
   period,
   features,
   highlighted = false,
   ctaText = "Get Started",
 }: PricingCardProps) {
   const [loading, setLoading] = useState(false);
+  const [qty, setQty] = useState(defaultQty);
+
+  const unitPrice = amount;
+  const totalPrice = unitPrice * qty;
 
   const handleCheckout = async () => {
     setLoading(true);
@@ -34,7 +36,7 @@ export default function PricingCard({
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({ amount: totalPrice }),
       });
 
       const data = await res.json();
@@ -54,6 +56,10 @@ export default function PricingCard({
   const buttonVariantClasses = highlighted
     ? "bg-accent-500 text-white hover:bg-accent-600 shadow-sm shadow-accent-500/20"
     : "bg-primary-600 text-white hover:bg-primary-700 shadow-sm shadow-primary-600/20";
+
+  const qtyBtnClasses = highlighted
+    ? "w-8 h-8 rounded-lg border border-primary-300 text-white hover:bg-primary-500 flex items-center justify-center transition-colors font-bold text-lg"
+    : "w-8 h-8 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors font-bold text-lg";
 
   return (
     <div
@@ -88,13 +94,14 @@ export default function PricingCard({
         </p>
       </div>
 
-      <div className="mb-6">
+      {/* Price */}
+      <div className="mb-4">
         <span
           className={`text-4xl font-bold ${
             highlighted ? "text-white" : "text-slate-900"
           }`}
         >
-          {price}
+          ${totalPrice % 1 === 0 ? totalPrice : totalPrice.toFixed(2)}
         </span>
         <span
           className={`text-sm ml-1 ${
@@ -109,9 +116,45 @@ export default function PricingCard({
               highlighted ? "text-primary-200" : "text-slate-400"
             }`}
           >
-            {qty} x ${(amount / qty).toFixed(2)} per unit
+            {qty} x ${unitPrice} per unit
           </p>
         )}
+      </div>
+
+      {/* Qty selector */}
+      <div className="mb-6">
+        <div className="flex items-center gap-3">
+          <span
+            className={`text-xs font-medium ${
+              highlighted ? "text-primary-200" : "text-slate-500"
+            }`}
+          >
+            Qty:
+          </span>
+          <button
+            type="button"
+            onClick={() => setQty((q) => Math.max(1, q - 1))}
+            className={qtyBtnClasses}
+            aria-label="Decrease quantity"
+          >
+            −
+          </button>
+          <span
+            className={`w-8 text-center font-semibold text-sm ${
+              highlighted ? "text-white" : "text-slate-900"
+            }`}
+          >
+            {qty}
+          </span>
+          <button
+            type="button"
+            onClick={() => setQty((q) => Math.min(99, q + 1))}
+            className={qtyBtnClasses}
+            aria-label="Increase quantity"
+          >
+            +
+          </button>
+        </div>
       </div>
 
       <ul className="space-y-3 mb-8 flex-1">

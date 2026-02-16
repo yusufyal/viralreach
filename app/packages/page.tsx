@@ -42,7 +42,6 @@ export default async function PackagesPage() {
                 id={pkg.id}
                 name={pkg.name}
                 description={pkg.description}
-                price={`$${pkg.price % 1 === 0 ? pkg.price.toFixed(0) : pkg.price.toFixed(2)}`}
                 amount={pkg.price}
                 qty={pkg.qty}
                 period={pkg.period}
