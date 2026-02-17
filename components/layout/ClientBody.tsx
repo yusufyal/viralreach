@@ -7,10 +7,19 @@ import Footer from "@/components/layout/Footer";
 export default function ClientBody({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
+  const isPaymentRedirect = pathname.startsWith("/payment");
 
   if (isAdmin) {
     return (
       <body className="font-sans bg-slate-100 min-h-screen">
+        {children}
+      </body>
+    );
+  }
+
+  if (isPaymentRedirect) {
+    return (
+      <body className="font-sans bg-white min-h-screen">
         {children}
       </body>
     );

@@ -113,16 +113,29 @@ export async function POST(request: Request) {
   const corsHeaders = getCorsHeaders(origin);
 
   try {
-    const { packageId, amount, successUrl, cancelUrl } =
+    const { packageId, amount, successUrl, cancelUrl, callbackUrl, cancelRedirect } =
       await request.json();
 
     let baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3050";
     if (baseUrl && !baseUrl.startsWith("http")) {
       baseUrl = `https://${baseUrl}`;
     }
-    const finalSuccessUrl =
-      successUrl || `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`;
-    const finalCancelUrl = cancelUrl || `${baseUrl}/packages`;
+
+    let finalSuccessUrl: string;
+    let finalCancelUrl: string;
+
+    if (callbackUrl) {
+      // Proxy mode: Stripe redirects to hnh-media.com, which then redirects to the caller's site
+      finalSuccessUrl = `${baseUrl}/payment/success?redirect=${encodeURIComponent(callbackUrl)}&session_id={CHECKOUT_SESSION_ID}`;
+      finalCancelUrl = cancelRedirect
+        ? `${baseUrl}/payment/cancel?redirect=${encodeURIComponent(cancelRedirect)}`
+        : `${baseUrl}/packages`;
+    } else {
+      // Direct mode (backward compatible): Stripe redirects to the provided URLs or defaults
+      finalSuccessUrl =
+        successUrl || `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`;
+      finalCancelUrl = cancelUrl || `${baseUrl}/packages`;
+    }
 
     const stripe = getStripe();
 
