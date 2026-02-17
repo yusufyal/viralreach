@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import getStripe from "@/lib/stripe";
 import { STRIPE_PRICES } from "@/lib/stripe-prices";
+import prisma from "@/lib/prisma";
 
 function getAllowedOrigins(): string[] {
   const origins = process.env.CORS_ALLOWED_ORIGINS || "";
@@ -125,10 +126,18 @@ export async function POST(request: Request) {
     let finalCancelUrl: string;
 
     if (callbackUrl) {
-      // Proxy mode: Stripe redirects to hnh-media.com, which then redirects to the caller's site
-      finalSuccessUrl = `${baseUrl}/payment/success?redirect=${encodeURIComponent(callbackUrl)}&session_id={CHECKOUT_SESSION_ID}`;
+      // Proxy mode: store redirect URLs in DB so they never appear in Stripe URLs
+      const checkoutSession = await prisma.checkoutSession.create({
+        data: {
+          callbackUrl,
+          cancelRedirect: cancelRedirect || null,
+          expiresAt: new Date(Date.now() + 60 * 60 * 1000), // 1 hour expiry
+        },
+      });
+
+      finalSuccessUrl = `${baseUrl}/payment/success?session=${checkoutSession.id}`;
       finalCancelUrl = cancelRedirect
-        ? `${baseUrl}/payment/cancel?redirect=${encodeURIComponent(cancelRedirect)}`
+        ? `${baseUrl}/payment/cancel?session=${checkoutSession.id}`
         : `${baseUrl}/packages`;
     } else {
       // Direct mode (backward compatible): Stripe redirects to the provided URLs or defaults

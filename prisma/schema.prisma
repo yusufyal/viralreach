@@ -7,6 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model CheckoutSession {
+  id             String   @id @default(cuid())
+  callbackUrl    String
+  cancelRedirect String?
+  createdAt      DateTime @default(now())
+  expiresAt      DateTime
+}
+
 model Package {
   id             String   @id @default(cuid())
   name           String
