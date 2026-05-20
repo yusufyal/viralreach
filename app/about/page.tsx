@@ -76,6 +76,9 @@ export default function AboutPage() {
               industry expertise with a genuine commitment to our clients&apos;
               success.
             </p>
+            <div className="mt-6 inline-block bg-primary-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md">
+              HNH Media is operated and owned by Outletsia LLC
+            </div>
           </div>
         </div>
       </section>
